@@ -1,8 +1,28 @@
 import Header from "./components/Header";
 import BodyPanel from "./components/BodyPanel";
+import InventoryPanel from "./components/InventoryPanel";
 import "./styles/custom.css";
 
 function App() {
+  const inventory = [
+    { name: "Heart", state: 1 },
+    { name: "Lung", state: 2 },
+    { name: "FirstKidney", state: 1 },
+    { name: "SecondKidney", state: 2 },
+    { name: "Lung", state: 1 },
+    { name: "Heart", state: 2 },
+    { name: "SecondKidney", state: 1 },
+    { name: "FirstKidney", state: 2 },
+    { name: "Heart", state: 1 },
+    { name: "Lung", state: 2 },
+    { name: "FirstKidney", state: 2 },
+    { name: "SecondKidney", state: 1 },
+    { name: "Lung", state: 1 },
+    { name: "Heart", state: 2 },
+    { name: "SecondKidney", state: 2 },
+    { name: "FirstKidney", state: 1 },
+  ];
+
   return (
     <div className="Owner">
       <div className="bg-dark MainWindow">
@@ -18,7 +38,7 @@ function App() {
               />
             </div>
             <div className="col-4 border border-danger border-4">
-              Inventory Panel
+              <InventoryPanel inventory={inventory} />
             </div>
           </div>
         </div>

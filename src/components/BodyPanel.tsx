@@ -19,48 +19,56 @@ const BodyPanel = ({
       <div className="container">
         <div className="row d-flex align-items-center">
           {/* First Card */}
-          <div className="col">
+          <div className="col position-relative">
             <img
               src="src/assets/body-outline.png"
               className="img-fluid"
               alt="..."
             />
+            <div
+              className="position-absolute"
+              style={{
+                top: "42%",
+                left: "52%",
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              <Organs name="heart" state={HeartState} />
+            </div>
+            <div
+              className="position-absolute"
+              style={{
+                top: "55%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              <Organs name="lung" state={LungState} />
+            </div>
+            <div
+              className="position-absolute"
+              style={{
+                top: "73%",
+                left: "42%",
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              <Organs name="FirstKidney" state={FirstKidneyState} />
+            </div>
+            <div
+              className="position-absolute"
+              style={{
+                top: "73%",
+                left: "58%",
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              <Organs name="SecondKidney" state={SecondKidneyState} />
+            </div>
           </div>
 
           {/* Second Card */}
           <div className="col">
-            <NotificationBar
-              type={
-                FirstKidneyState === 1
-                  ? "warning"
-                  : FirstKidneyState === 2
-                    ? "success"
-                    : "danger"
-              }
-              message={
-                FirstKidneyState === 0
-                  ? "First Kidney is non-existent."
-                  : FirstKidneyState === 1
-                    ? "First Kidney has issues."
-                    : "First Kidney is healthy."
-              }
-            />
-            <NotificationBar
-              type={
-                SecondKidneyState === 1
-                  ? "warning"
-                  : SecondKidneyState === 2
-                    ? "success"
-                    : "danger"
-              }
-              message={
-                SecondKidneyState === 0
-                  ? "Second Kidney is non-existent."
-                  : SecondKidneyState === 1
-                    ? "Second Kidney has issues."
-                    : "Second Kidney is healthy."
-              }
-            />
             <NotificationBar
               type={
                 HeartState === 1
@@ -93,7 +101,38 @@ const BodyPanel = ({
                     : "Lung is healthy."
               }
             />
-            <Organs />
+            <NotificationBar
+              type={
+                FirstKidneyState === 1
+                  ? "warning"
+                  : FirstKidneyState === 2
+                    ? "success"
+                    : "danger"
+              }
+              message={
+                FirstKidneyState === 0
+                  ? "First Kidney is non-existent."
+                  : FirstKidneyState === 1
+                    ? "First Kidney has issues."
+                    : "First Kidney is healthy."
+              }
+            />
+            <NotificationBar
+              type={
+                SecondKidneyState === 1
+                  ? "warning"
+                  : SecondKidneyState === 2
+                    ? "success"
+                    : "danger"
+              }
+              message={
+                SecondKidneyState === 0
+                  ? "Second Kidney is non-existent."
+                  : SecondKidneyState === 1
+                    ? "Second Kidney has issues."
+                    : "Second Kidney is healthy."
+              }
+            />
           </div>
         </div>
       </div>
