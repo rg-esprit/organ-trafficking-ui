@@ -37,7 +37,7 @@ function App() {
                 SecondKidneyState={2}
               />
             </div>
-            <div className="col-4 border border-danger border-4">
+            <div className="col-4 d-flex align-items-center border border-danger border-4">
               <InventoryPanel inventory={inventory} />
             </div>
           </div>
