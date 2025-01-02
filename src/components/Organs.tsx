@@ -13,7 +13,7 @@ const Organs = ({ name, state, onDragStart }: Organ) => {
   const stateColors: Record<number, string> = {
     0: rgba(255, 0, 0, 0.5), // Red-transparent
     1: rgba(255, 165, 0, 0.5), // Orange-transparent
-    2: rgba(0, 255, 0, 0.5), // Green-transparent
+    2: rgba(0, 255, 0, 0.5), // Greeen-transparent
   };
 
   const handleDragStart = (e: React.DragEvent) => {
