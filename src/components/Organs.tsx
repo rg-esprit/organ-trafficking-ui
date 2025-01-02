@@ -3,9 +3,13 @@ import { rgba } from "polished";
 interface Organ {
   name: string; // Organ name, e.g., "Heart", "FirstKidney"
   state: number; // State: 0 (red), 1 (orange), 2 (green)
+  onDragStart: (
+    e: React.DragEvent,
+    item: { name: string; state: number },
+  ) => void;
 }
 
-const Organs = ({ name, state }: Organ) => {
+const Organs = ({ name, state, onDragStart }: Organ) => {
   const stateColors: Record<number, string> = {
     0: rgba(255, 0, 0, 0.5), // Red-transparent
     1: rgba(255, 165, 0, 0.5), // Orange-transparent
@@ -14,6 +18,8 @@ const Organs = ({ name, state }: Organ) => {
 
   return (
     <div
+      draggable
+      onDragStart={(e) => onDragStart(e, { name, state })}
       className="d-inline-block m-0 p-0"
       style={{
         backgroundColor: stateColors[state],

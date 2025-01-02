@@ -1,11 +1,16 @@
 import NotificationBar from "./NotificationBar.tsx";
 import Organs from "./Organs.tsx";
+import React from "react";
 
 interface Props {
   FirstKidneyState: number;
   SecondKidneyState: number;
   HeartState: number;
   LungState: number;
+  onDragStart: (
+    e: React.DragEvent,
+    item: { name: string; state: number },
+  ) => void;
 }
 
 const BodyPanel = ({
@@ -13,6 +18,7 @@ const BodyPanel = ({
   SecondKidneyState,
   HeartState,
   LungState,
+  onDragStart,
 }: Props) => {
   return (
     <>
@@ -33,7 +39,11 @@ const BodyPanel = ({
                 transform: "translate(-50%, -50%)",
               }}
             >
-              <Organs name="heart" state={HeartState} />
+              <Organs
+                name="heart"
+                state={HeartState}
+                onDragStart={onDragStart}
+              />
             </div>
             <div
               className="position-absolute"
@@ -43,7 +53,7 @@ const BodyPanel = ({
                 transform: "translate(-50%, -50%)",
               }}
             >
-              <Organs name="lung" state={LungState} />
+              <Organs name="lung" state={LungState} onDragStart={onDragStart} />
             </div>
             <div
               className="position-absolute"
@@ -53,7 +63,11 @@ const BodyPanel = ({
                 transform: "translate(-50%, -50%)",
               }}
             >
-              <Organs name="FirstKidney" state={FirstKidneyState} />
+              <Organs
+                name="FirstKidney"
+                state={FirstKidneyState}
+                onDragStart={onDragStart}
+              />
             </div>
             <div
               className="position-absolute"
@@ -63,7 +77,11 @@ const BodyPanel = ({
                 transform: "translate(-50%, -50%)",
               }}
             >
-              <Organs name="SecondKidney" state={SecondKidneyState} />
+              <Organs
+                name="SecondKidney"
+                state={SecondKidneyState}
+                onDragStart={onDragStart}
+              />
             </div>
           </div>
 
