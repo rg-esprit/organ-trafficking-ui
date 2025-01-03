@@ -1,6 +1,7 @@
 import NotificationBar from "./NotificationBar.tsx";
 import Organs from "./Organs.tsx";
 import React from "react";
+import bodyOutline from "../assets/body-outline.png";
 
 interface Props {
   FirstKidneyState: number;
@@ -26,11 +27,7 @@ const BodyPanel = ({
         <div className="row d-flex align-items-center">
           {/* First Card */}
           <div className="col position-relative">
-            <img
-              src="src/assets/body-outline.png"
-              className="img-fluid"
-              alt="..."
-            />
+            <img src={bodyOutline} className="img-fluid" alt="..." />
             <div
               className="position-absolute"
               style={{
@@ -40,7 +37,7 @@ const BodyPanel = ({
               }}
             >
               <Organs
-                name="heart"
+                name="Heart"
                 state={HeartState}
                 onDragStart={onDragStart}
               />

@@ -1,4 +1,9 @@
 import { rgba } from "polished";
+import emptyImage from "../assets/organs/empty.png";
+import heartImage from "../assets/organs/heart.png";
+import firstKidneyImage from "../assets/organs/FirstKidney.png";
+import lungImage from "../assets/organs/lung.png";
+import secondKidneyImage from "../assets/organs/SecondKidney.png";
 
 interface Organ {
   name: string; // Organ name, e.g., "Heart", "FirstKidney"
@@ -14,6 +19,13 @@ const Organs = ({ name, state, onDragStart }: Organ) => {
     0: rgba(255, 0, 0, 0.5), // Red-transparent
     1: rgba(255, 165, 0, 0.5), // Orange-transparent
     2: rgba(0, 255, 0, 0.5), // Greeen-transparent
+  };
+  const imageMap: Record<string, string> = {
+    empty: emptyImage,
+    Heart: heartImage,
+    FirstKidney: firstKidneyImage,
+    Lung: lungImage,
+    SecondKidney: secondKidneyImage,
   };
 
   const handleDragStart = (e: React.DragEvent) => {
@@ -37,11 +49,7 @@ const Organs = ({ name, state, onDragStart }: Organ) => {
     >
       <img
         draggable={false} // Prevent the image itself from being draggable
-        src={
-          state === 0
-            ? "src/assets/organs/empty.png"
-            : `src/assets/organs/${name}.png`
-        }
+        src={state === 0 ? imageMap["empty"] : imageMap[name]}
         alt={name}
         style={{ maxWidth: "4rem" }}
       />
