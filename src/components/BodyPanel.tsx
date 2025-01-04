@@ -12,6 +12,7 @@ interface Props {
     e: React.DragEvent,
     item: { name: string; state: number },
   ) => void;
+  onDrop: (e: React.DragEvent, PlaceName: string) => void;
 }
 
 const BodyPanel = ({
@@ -20,6 +21,7 @@ const BodyPanel = ({
   HeartState,
   LungState,
   onDragStart,
+  onDrop,
 }: Props) => {
   return (
     <>
@@ -40,6 +42,7 @@ const BodyPanel = ({
                 name="Heart"
                 state={HeartState}
                 onDragStart={onDragStart}
+                onDrop={onDrop}
               />
             </div>
             <div
@@ -50,7 +53,12 @@ const BodyPanel = ({
                 transform: "translate(-50%, -50%)",
               }}
             >
-              <Organs name="lung" state={LungState} onDragStart={onDragStart} />
+              <Organs
+                name="lung"
+                state={LungState}
+                onDragStart={onDragStart}
+                onDrop={onDrop}
+              />
             </div>
             <div
               className="position-absolute"
@@ -64,6 +72,7 @@ const BodyPanel = ({
                 name="FirstKidney"
                 state={FirstKidneyState}
                 onDragStart={onDragStart}
+                onDrop={onDrop}
               />
             </div>
             <div
@@ -78,6 +87,7 @@ const BodyPanel = ({
                 name="SecondKidney"
                 state={SecondKidneyState}
                 onDragStart={onDragStart}
+                onDrop={onDrop}
               />
             </div>
           </div>

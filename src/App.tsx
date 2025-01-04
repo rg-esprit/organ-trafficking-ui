@@ -21,8 +21,24 @@ function App() {
       JSON.stringify({ ...item, source: "body" }),
     );
   };
+  const handleDragInventory = (
+    e: React.DragEvent,
+    item: { name: string; state: number },
+  ) => {
+    console.log(`Dragging ${item.name} from inventory`);
+    e.dataTransfer.setData(
+      "text/plain",
+      JSON.stringify({ ...item, source: "inventory" }),
+    );
+  };
   const handleDrop = (e: React.DragEvent) => {
     console.log("Dropped into inventory");
+    let data = e.dataTransfer.getData("text/plain");
+    data = JSON.parse(data);
+    console.log(data);
+  };
+  const handleDropBody = (e: React.DragEvent, PlaceName: string) => {
+    console.log("Dropped into " + PlaceName);
     let data = e.dataTransfer.getData("text/plain");
     data = JSON.parse(data);
     console.log(data);
@@ -40,10 +56,15 @@ function App() {
                 LungState={0}
                 SecondKidneyState={2}
                 onDragStart={handleDragStart}
+                onDrop={handleDropBody}
               />
             </div>
             <div className="col-4 d-flex align-items-center border border-danger border-4">
-              <InventoryPanel inventory={inventory} handleDrop={handleDrop} />
+              <InventoryPanel
+                inventory={inventory}
+                handleDrop={handleDrop}
+                onDragStart={handleDragInventory}
+              />
             </div>
           </div>
         </div>

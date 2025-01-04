@@ -9,9 +9,14 @@ interface Organ {
 interface InventoryPanelProps {
   inventory: Organ[];
   handleDrop: (e: React.DragEvent) => void;
+  onDragStart: (e: React.DragEvent, item: Organ) => void;
 }
 
-const InventoryPanel = ({ inventory, handleDrop }: InventoryPanelProps) => {
+const InventoryPanel = ({
+  inventory,
+  handleDrop,
+  onDragStart,
+}: InventoryPanelProps) => {
   const [isDraggingOver, setIsDraggingOver] = useState(false);
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -41,9 +46,8 @@ const InventoryPanel = ({ inventory, handleDrop }: InventoryPanelProps) => {
           key={organ.name}
           name={organ.name}
           state={organ.state}
-          onDragStart={() => {
-            console.log(`Dragging ${organ.name} from inventory`);
-          }}
+          onDragStart={onDragStart}
+          onDrop={handleDrop}
         />
       ))}
     </div>
