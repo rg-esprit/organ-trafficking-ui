@@ -2,32 +2,44 @@ import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
 interface ConfirmationModalProps {
-  show: boolean;
-  handleClose: () => void;
-  handleConfirm: () => void;
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
   title: string;
   body: string;
+  confirmText?: string;
+  cancelText?: string;
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
-  show,
-  handleClose,
-  handleConfirm,
+  isOpen,
+  onClose,
+  onConfirm,
   title,
   body,
+  confirmText = "Save changes",
+  cancelText = "Close",
 }) => {
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={isOpen} onHide={onClose} backdrop="static" keyboard={false}>
       <Modal.Header closeButton>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>{body}</Modal.Body>
+      <Modal.Body>
+        <p>{body}</p>
+      </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Cancel
+        <Button variant="secondary" onClick={onClose}>
+          {cancelText}
         </Button>
-        <Button variant="primary" onClick={handleConfirm}>
-          Confirm
+        <Button
+          variant="primary"
+          onClick={() => {
+            onConfirm();
+            onClose();
+          }}
+        >
+          {confirmText}
         </Button>
       </Modal.Footer>
     </Modal>
