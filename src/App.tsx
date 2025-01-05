@@ -4,6 +4,7 @@ import InventoryPanel from "./components/InventoryPanel";
 import "./styles/custom.css";
 import ConfirmationModal from "./components/ConfirmationModal";
 import { useState } from "react";
+import { onMessage } from "./utils/fivemNUI";
 import React from "react";
 
 interface Item {
@@ -20,6 +21,7 @@ interface PendingDrop {
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pendingDrop, setPendingDrop] = useState<PendingDrop>({ data: null });
+  const [isVisible, setIsVisible] = useState(false);
   const inventory = [
     { name: "Heart", state: 1 },
     { name: "Lung", state: 2 },
@@ -28,22 +30,22 @@ function App() {
   ];
   const handleDragStart = (
     e: React.DragEvent,
-    item: { name: string; state: number },
+    item: { name: string; state: number }
   ) => {
     console.log(`Dragging ${item.name} from body panel`);
     e.dataTransfer.setData(
       "text/plain",
-      JSON.stringify({ ...item, source: "body" }),
+      JSON.stringify({ ...item, source: "body" })
     );
   };
   const handleDragInventory = (
     e: React.DragEvent,
-    item: { name: string; state: number },
+    item: { name: string; state: number }
   ) => {
     console.log(`Dragging ${item.name} from inventory`);
     e.dataTransfer.setData(
       "text/plain",
-      JSON.stringify({ ...item, source: "inventory" }),
+      JSON.stringify({ ...item, source: "inventory" })
     );
   };
   // inventory
@@ -80,7 +82,27 @@ function App() {
       setPendingDrop({ data: null });
     }
   };
-  return (
+  React.useEffect(() => {
+    const cleanup = onMessage("showui", (data: { show: boolean }) => {
+      setIsVisible(data.show);
+    });
+
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === "k" || event.key === "K") {
+        setIsVisible(true);
+      } else if (event.key === "l" || event.key === "L") {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      cleanup();
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
+  return isVisible ? (
     <div className="Owner">
       <div className="bg-dark MainWindow">
         <Header />
@@ -123,7 +145,7 @@ function App() {
         cancelText="Cancel"
       />
     </div>
-  );
+  ) : null;
 }
 
 export default App;

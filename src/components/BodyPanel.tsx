@@ -10,7 +10,7 @@ interface Props {
   LungState: number;
   onDragStart: (
     e: React.DragEvent,
-    item: { name: string; state: number },
+    item: { name: string; state: number }
   ) => void;
   onDrop: (e: React.DragEvent, PlaceName: string) => void;
 }

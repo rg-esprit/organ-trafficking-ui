@@ -11,7 +11,7 @@ interface Organ {
   state: number; // State: 0 (red), 1 (orange), 2 (green)
   onDragStart: (
     e: React.DragEvent,
-    item: { name: string; state: number },
+    item: { name: string; state: number }
   ) => void;
   onDrop: (e: React.DragEvent, PlaceName: string) => void;
 }
