@@ -1,4 +1,3 @@
-import React from "react";
 import { useDragLayer } from "react-dnd";
 
 const DragPreview = () => {
@@ -20,7 +19,6 @@ const DragPreview = () => {
         zIndex: 100,
         left: currentOffset.x,
         top: currentOffset.y,
-        transform: "translate(-50%, -50%)",
       }}
     >
       <img

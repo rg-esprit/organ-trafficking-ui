@@ -1,6 +1,5 @@
 import { rgba } from "polished";
 import { useDrag, useDrop } from "react-dnd";
-import { useEffect, useState } from "react";
 
 interface Organ {
   name: string;
