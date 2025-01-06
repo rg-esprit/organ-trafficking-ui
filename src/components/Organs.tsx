@@ -1,5 +1,6 @@
 import { rgba } from "polished";
 import { useDrag, useDrop } from "react-dnd";
+import { useEffect, useState } from "react";
 
 interface Organ {
   name: string;
@@ -7,10 +8,22 @@ interface Organ {
   onDrop: (item: { name: string; state: number }, targetName: string) => void;
 }
 
+const imageMap: Record<string, string> = {
+  empty: "./assets/organs/empty.png",
+  Heart: "./assets/organs/heart.png",
+  FirstKidney: "./assets/organs/FirstKidney.png",
+  Lung: "./assets/organs/lung.png",
+  SecondKidney: "./assets/organs/SecondKidney.png",
+};
+
 const Organs = ({ name, state, onDrop }: Organ) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "organ",
-    item: { name, state },
+    item: {
+      name,
+      state,
+      previewSrc: state === 0 ? imageMap["empty"] : imageMap[name],
+    },
     canDrag: state !== 0,
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -32,15 +45,8 @@ const Organs = ({ name, state, onDrop }: Organ) => {
     2: rgba(0, 255, 0, 0.5),
   };
 
-  const imageMap: Record<string, string> = {
-    empty: "./assets/organs/empty.png",
-    Heart: "./assets/organs/heart.png",
-    FirstKidney: "./assets/organs/FirstKidney.png",
-    Lung: "./assets/organs/lung.png",
-    SecondKidney: "./assets/organs/SecondKidney.png",
-  };
-
   const ref = state === 0 ? drop : drag;
+  const previewSrc = state === 0 ? imageMap["empty"] : imageMap[name];
 
   return (
     <div
@@ -55,7 +61,7 @@ const Organs = ({ name, state, onDrop }: Organ) => {
     >
       <img
         draggable={false}
-        src={state === 0 ? imageMap["empty"] : imageMap[name]}
+        src={previewSrc}
         alt={name}
         style={{ maxWidth: "4rem" }}
       />

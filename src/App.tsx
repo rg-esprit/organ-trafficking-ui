@@ -8,6 +8,7 @@ import { onMessage } from "./utils/fivemNUI";
 import { DndProvider } from "react-dnd";
 import { TouchBackend } from "react-dnd-touch-backend";
 import React from "react";
+import DragPreview from "./components/DragPreview";
 
 interface Item {
   name: string;
@@ -73,6 +74,7 @@ function App() {
   return isVisible ? (
     <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
       <div className="Owner">
+        <DragPreview /> {/* Add this line */}
         <div className="bg-dark MainWindow">
           <Header />
           <div className="content-container">
