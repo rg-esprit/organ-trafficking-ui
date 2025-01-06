@@ -1,6 +1,5 @@
 import NotificationBar from "./NotificationBar.tsx";
 import Organs from "./Organs.tsx";
-import React from "react";
 import bodyOutline from "../assets/body-outline.png";
 
 interface Props {

@@ -1,4 +1,3 @@
-import React from "react";
 import Organs from "./Organs";
 import { useDrop } from "react-dnd";
 
