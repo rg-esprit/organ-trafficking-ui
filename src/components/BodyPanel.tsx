@@ -8,11 +8,7 @@ interface Props {
   SecondKidneyState: number;
   HeartState: number;
   LungState: number;
-  onDragStart: (
-    e: React.DragEvent,
-    item: { name: string; state: number }
-  ) => void;
-  onDrop: (e: React.DragEvent, PlaceName: string) => void;
+  onDrop: (item: { name: string; state: number }, targetPlace: string) => void;
 }
 
 const BodyPanel = ({
@@ -20,14 +16,14 @@ const BodyPanel = ({
   SecondKidneyState,
   HeartState,
   LungState,
-  onDragStart,
   onDrop,
 }: Props) => {
+  // Removed onDragStart prop since it's handled by React DnD now
+
   return (
     <>
       <div className="container">
         <div className="row d-flex align-items-center">
-          {/* First Card */}
           <div className="col position-relative">
             <img src={bodyOutline} className="img-fluid" alt="..." />
             <div
@@ -38,12 +34,7 @@ const BodyPanel = ({
                 transform: "translate(-50%, -50%)",
               }}
             >
-              <Organs
-                name="Heart"
-                state={HeartState}
-                onDragStart={onDragStart}
-                onDrop={onDrop}
-              />
+              <Organs name="Heart" state={HeartState} onDrop={onDrop} />
             </div>
             <div
               className="position-absolute"
@@ -53,12 +44,7 @@ const BodyPanel = ({
                 transform: "translate(-50%, -50%)",
               }}
             >
-              <Organs
-                name="lung"
-                state={LungState}
-                onDragStart={onDragStart}
-                onDrop={onDrop}
-              />
+              <Organs name="Lung" state={LungState} onDrop={onDrop} />
             </div>
             <div
               className="position-absolute"
@@ -71,7 +57,6 @@ const BodyPanel = ({
               <Organs
                 name="FirstKidney"
                 state={FirstKidneyState}
-                onDragStart={onDragStart}
                 onDrop={onDrop}
               />
             </div>
@@ -86,13 +71,11 @@ const BodyPanel = ({
               <Organs
                 name="SecondKidney"
                 state={SecondKidneyState}
-                onDragStart={onDragStart}
                 onDrop={onDrop}
               />
             </div>
           </div>
 
-          {/* Second Card */}
           <div className="col">
             <NotificationBar
               type={

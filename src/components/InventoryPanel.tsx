@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import Organs from "./Organs";
+import { useDrop } from "react-dnd";
 
 interface Organ {
   name: string;
@@ -8,37 +9,24 @@ interface Organ {
 
 interface InventoryPanelProps {
   inventory: Organ[];
-  handleDrop: (e: React.DragEvent) => void;
-  onDragStart: (e: React.DragEvent, item: Organ) => void;
+  onDrop: (item: { name: string; state: number }, targetPlace: string) => void;
 }
 
-const InventoryPanel = ({
-  inventory,
-  handleDrop,
-  onDragStart,
-}: InventoryPanelProps) => {
-  const [isDraggingOver, setIsDraggingOver] = useState(false);
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDraggingOver(true);
-  };
-
-  const handleDragLeave = () => {
-    setIsDraggingOver(false);
-  };
+const InventoryPanel = ({ inventory, onDrop }: InventoryPanelProps) => {
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: "organ",
+    drop: (item: { name: string; state: number }) => onDrop(item, "inventory"),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
+  }));
 
   return (
     <div
+      ref={drop}
       className="d-inline-flex flex-wrap justify-content-center gap-4"
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={(e) => {
-        handleDrop(e);
-        setIsDraggingOver(false);
-      }}
       style={{
-        backgroundColor: isDraggingOver ? "lightblue" : "transparent",
+        backgroundColor: isOver ? "rgba(173, 216, 230, 0.5)" : "transparent",
       }}
     >
       {inventory.map((organ) => (
@@ -46,8 +34,7 @@ const InventoryPanel = ({
           key={organ.name}
           name={organ.name}
           state={organ.state}
-          onDragStart={onDragStart}
-          onDrop={handleDrop}
+          onDrop={onDrop}
         />
       ))}
     </div>

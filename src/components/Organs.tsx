@@ -4,25 +4,41 @@ import heartImage from "../assets/organs/heart.png";
 import firstKidneyImage from "../assets/organs/FirstKidney.png";
 import lungImage from "../assets/organs/lung.png";
 import secondKidneyImage from "../assets/organs/SecondKidney.png";
-import { useState } from "react";
+import { useDrag, useDrop } from "react-dnd";
+
+const ItemTypes = {
+  ORGAN: "organ",
+};
 
 interface Organ {
-  name: string; // Organ name, e.g., "Heart", "FirstKidney"
-  state: number; // State: 0 (red), 1 (orange), 2 (green)
-  onDragStart: (
-    e: React.DragEvent,
-    item: { name: string; state: number }
-  ) => void;
-  onDrop: (e: React.DragEvent, PlaceName: string) => void;
+  name: string;
+  state: number;
+  onDrop: (item: { name: string; state: number }, targetName: string) => void;
 }
 
-const Organs = ({ name, state, onDragStart, onDrop }: Organ) => {
-  const [isDraggedOver, setIsDraggedOver] = useState(false);
+const Organs = ({ name, state, onDrop }: Organ) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes.ORGAN,
+    item: { name, state },
+    canDrag: state !== 0,
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
+
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: ItemTypes.ORGAN,
+    canDrop: () => state === 0,
+    drop: (item: { name: string; state: number }) => onDrop(item, name),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver() && state === 0,
+    }),
+  }));
 
   const stateColors: Record<number, string> = {
-    0: rgba(255, 0, 0, 0.5), // Red-transparent
-    1: rgba(255, 165, 0, 0.5), // Orange-transparent
-    2: rgba(0, 255, 0, 0.5), // Greeen-transparent
+    0: rgba(255, 0, 0, 0.5),
+    1: rgba(255, 165, 0, 0.5),
+    2: rgba(0, 255, 0, 0.5),
   };
 
   const imageMap: Record<string, string> = {
@@ -33,45 +49,17 @@ const Organs = ({ name, state, onDragStart, onDrop }: Organ) => {
     SecondKidney: secondKidneyImage,
   };
 
-  const handleDragStart = (e: React.DragEvent) => {
-    if (state === 0) {
-      e.preventDefault();
-      return;
-    }
-    onDragStart(e, { name, state });
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    if (state === 0) {
-      e.preventDefault();
-      setIsDraggedOver(true);
-    }
-  };
-
-  const handleDragLeave = () => {
-    setIsDraggedOver(false);
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    if (state === 0) {
-      e.preventDefault();
-      setIsDraggedOver(false);
-      onDrop(e, name);
-    }
-  };
+  const ref = state === 0 ? drop : drag;
 
   return (
     <div
-      draggable={state !== 0}
-      onDragStart={handleDragStart}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
-      className={`d-inline-block m-0 ${isDraggedOver && state === 0 ? "border border-light border-3" : ""}`}
+      ref={ref}
+      className={`d-inline-block m-0 ${isOver ? "border border-light border-3" : ""}`}
       style={{
         backgroundColor: stateColors[state],
         borderRadius: "0.5rem",
         cursor: state === 0 ? "not-allowed" : "grab",
+        opacity: isDragging ? 0.5 : 1,
       }}
     >
       <img
