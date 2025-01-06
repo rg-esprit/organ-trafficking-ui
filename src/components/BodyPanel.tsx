@@ -1,6 +1,7 @@
 import NotificationBar from "./NotificationBar.tsx";
 import Organs from "./Organs.tsx";
-import bodyOutline from "../assets/body-outline.png";
+
+const bodyOutlineUrl = "./assets/body-outline.png";
 
 interface Props {
   FirstKidneyState: number;
@@ -17,14 +18,12 @@ const BodyPanel = ({
   LungState,
   onDrop,
 }: Props) => {
-  // Removed onDragStart prop since it's handled by React DnD now
-
   return (
     <>
       <div className="container">
         <div className="row d-flex align-items-center">
           <div className="col position-relative">
-            <img src={bodyOutline} className="img-fluid" alt="..." />
+            <img src={bodyOutlineUrl} className="img-fluid" alt="..." />
             <div
               className="position-absolute"
               style={{

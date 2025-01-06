@@ -1,14 +1,5 @@
 import { rgba } from "polished";
-import emptyImage from "../assets/organs/empty.png";
-import heartImage from "../assets/organs/heart.png";
-import firstKidneyImage from "../assets/organs/FirstKidney.png";
-import lungImage from "../assets/organs/lung.png";
-import secondKidneyImage from "../assets/organs/SecondKidney.png";
 import { useDrag, useDrop } from "react-dnd";
-
-const ItemTypes = {
-  ORGAN: "organ",
-};
 
 interface Organ {
   name: string;
@@ -18,7 +9,7 @@ interface Organ {
 
 const Organs = ({ name, state, onDrop }: Organ) => {
   const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemTypes.ORGAN,
+    type: "organ",
     item: { name, state },
     canDrag: state !== 0,
     collect: (monitor) => ({
@@ -27,7 +18,7 @@ const Organs = ({ name, state, onDrop }: Organ) => {
   }));
 
   const [{ isOver }, drop] = useDrop(() => ({
-    accept: ItemTypes.ORGAN,
+    accept: "organ",
     canDrop: () => state === 0,
     drop: (item: { name: string; state: number }) => onDrop(item, name),
     collect: (monitor) => ({
@@ -42,11 +33,11 @@ const Organs = ({ name, state, onDrop }: Organ) => {
   };
 
   const imageMap: Record<string, string> = {
-    empty: emptyImage,
-    Heart: heartImage,
-    FirstKidney: firstKidneyImage,
-    Lung: lungImage,
-    SecondKidney: secondKidneyImage,
+    empty: "./assets/organs/empty.png",
+    Heart: "./assets/organs/heart.png",
+    FirstKidney: "./assets/organs/FirstKidney.png",
+    Lung: "./assets/organs/lung.png",
+    SecondKidney: "./assets/organs/SecondKidney.png",
   };
 
   const ref = state === 0 ? drop : drag;

@@ -8,4 +8,5 @@ export default defineConfig({
   build: {
     outDir: "ui",
   },
+  publicDir: "public", // Add this line
 });
