@@ -4,7 +4,11 @@ import { useDrag, useDrop } from "react-dnd";
 interface Organ {
   name: string;
   state: number;
-  onDrop: (item: { name: string; state: number }, targetName: string) => void;
+  source?: string; // Add source property
+  onDrop: (
+    item: { name: string; state: number; source: string },
+    targetName: string
+  ) => void;
 }
 
 const imageMap: Record<string, string> = {
@@ -15,12 +19,13 @@ const imageMap: Record<string, string> = {
   SecondKidney: "./assets/organs/SecondKidney.png",
 };
 
-const Organs = ({ name, state, onDrop }: Organ) => {
+const Organs = ({ name, state, source = "body", onDrop }: Organ) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "organ",
     item: {
       name,
       state,
+      source, // Include source in drag item
       previewSrc: state === 0 ? imageMap["empty"] : imageMap[name],
     },
     canDrag: state !== 0,
@@ -32,7 +37,8 @@ const Organs = ({ name, state, onDrop }: Organ) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "organ",
     canDrop: () => state === 0,
-    drop: (item: { name: string; state: number }) => onDrop(item, name),
+    drop: (item: { name: string; state: number; source: string }) =>
+      onDrop(item, name),
     collect: (monitor) => ({
       isOver: !!monitor.isOver() && state === 0,
     }),

@@ -8,7 +8,10 @@ interface Props {
   SecondKidneyState: number;
   HeartState: number;
   LungState: number;
-  onDrop: (item: { name: string; state: number }, targetPlace: string) => void;
+  onDrop: (
+    item: { name: string; state: number; source: string },
+    targetPlace: string
+  ) => void;
 }
 
 const BodyPanel = ({

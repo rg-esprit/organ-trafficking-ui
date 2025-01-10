@@ -4,17 +4,22 @@ import { useDrop } from "react-dnd";
 interface Organ {
   name: string;
   state: number;
+  source?: string;
 }
 
 interface InventoryPanelProps {
   inventory: Organ[];
-  onDrop: (item: { name: string; state: number }, targetPlace: string) => void;
+  onDrop: (
+    item: { name: string; state: number; source: string },
+    targetPlace: string
+  ) => void;
 }
 
 const InventoryPanel = ({ inventory, onDrop }: InventoryPanelProps) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "organ",
-    drop: (item: { name: string; state: number }) => onDrop(item, "inventory"),
+    drop: (item: { name: string; state: number; source: string }) =>
+      onDrop({ ...item, source: item.source }, "inventory"),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
@@ -33,6 +38,7 @@ const InventoryPanel = ({ inventory, onDrop }: InventoryPanelProps) => {
           key={organ.name}
           name={organ.name}
           state={organ.state}
+          source="inventory" // Add source prop
           onDrop={onDrop}
         />
       ))}
